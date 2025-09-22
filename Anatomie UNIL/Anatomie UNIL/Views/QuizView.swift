@@ -1,0 +1,255 @@
+//
+//  QuizView.swift
+//  Anatomie UNIL
+//
+//  Created by Assistant on 22.09.2025.
+//
+
+import SwiftUI
+import SwiftData
+
+struct QuizView: View {
+    let category: MuscleCategory?
+
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var settings: Settings
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var viewModel: QuizViewModel
+    @State private var showingExitAlert = false
+
+    init(category: MuscleCategory?) {
+        self.category = category
+        // Initialize with dummy values - will be properly set in onAppear with actual context
+        self._viewModel = State(initialValue: QuizViewModel(
+            quizService: QuizService(
+                modelContext: try! ModelContext(ModelContainer(for: Muscle.self, Quiz.self, QuizQuestion.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))),
+                settings: Settings()
+            ),
+            settings: Settings()
+        ))
+    }
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                // Background
+                Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
+
+                if viewModel.isQuizCompleted {
+                    QuizResultsView(quiz: viewModel.currentQuiz!)
+                } else {
+                    VStack(spacing: 0) {
+                        // Progress header
+                        QuizProgressHeader(
+                            progress: viewModel.progress,
+                            progressText: viewModel.progressText
+                        )
+
+                        // Question content
+                        if let question = viewModel.currentQuestion {
+                            QuizQuestionView(
+                                question: question,
+                                selectedAnswer: viewModel.selectedAnswer,
+                                onAnswerSelected: { answer in
+                                    viewModel.selectAnswer(answer)
+                                },
+                                onSubmit: {
+                                    viewModel.submitAnswer()
+                                },
+                                showingResult: settings.showResultsImmediately && viewModel.selectedAnswer != nil,
+                                isCorrect: viewModel.isAnswerCorrect
+                            )
+                        }
+                    }
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Quitter") {
+                        showingExitAlert = true
+                    }
+                }
+            }
+        }
+        .onAppear {
+            // Properly initialize viewModel with the actual context and settings
+            let quizService = QuizService(modelContext: modelContext, settings: settings)
+            viewModel = QuizViewModel(quizService: quizService, settings: settings)
+            viewModel.startQuiz(category: category)
+        }
+        .alert("Quitter le quiz", isPresented: $showingExitAlert) {
+            Button("Annuler", role: .cancel) { }
+            Button("Quitter", role: .destructive) {
+                dismiss()
+            }
+        } message: {
+            Text("Êtes-vous sûr de vouloir quitter le quiz ? Votre progression sera perdue.")
+        }
+    }
+}
+
+struct QuizProgressHeader: View {
+    let progress: Double
+    let progressText: String
+
+    var body: some View {
+        VStack(spacing: 12) {
+            ProgressView(value: progress)
+                .tint(.blue)
+                .scaleEffect(y: 2)
+
+            Text(progressText)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .background(Color(.systemBackground))
+    }
+}
+
+struct QuizQuestionView: View {
+    let question: QuizQuestion
+    let selectedAnswer: String?
+    let onAnswerSelected: (String) -> Void
+    let onSubmit: () -> Void
+    let showingResult: Bool
+    let isCorrect: Bool?
+
+    var body: some View {
+        VStack(spacing: 24) {
+            // Question
+            VStack(spacing: 16) {
+                Text(question.question)
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+
+                if showingResult, let isCorrect = isCorrect {
+                    Label(
+                        isCorrect ? "Correct !" : "Incorrect",
+                        systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
+                    )
+                    .font(.headline)
+                    .foregroundColor(isCorrect ? .green : .red)
+                }
+            }
+            .padding(.top, 40)
+
+            // Answer options
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                ForEach(question.options, id: \.self) { option in
+                    AnswerButton(
+                        text: option,
+                        isSelected: selectedAnswer == option,
+                        isCorrect: showingResult ? option == question.correctAnswer : nil,
+                        isUserAnswer: showingResult && selectedAnswer == option
+                    ) {
+                        if !showingResult {
+                            onAnswerSelected(option)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+
+            Spacer()
+
+            // Submit button
+            if selectedAnswer != nil && !showingResult {
+                Button(action: onSubmit) {
+                    Text("Valider")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(12)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 40)
+            }
+        }
+    }
+}
+
+struct AnswerButton: View {
+    let text: String
+    let isSelected: Bool
+    let isCorrect: Bool?
+    let isUserAnswer: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(text)
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .foregroundColor(foregroundColor)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: 60)
+                .background(backgroundColor)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(borderColor, lineWidth: borderWidth)
+                )
+        }
+        .disabled(isCorrect != nil) // Disable when showing results
+    }
+
+    private var backgroundColor: Color {
+        if let isCorrect = isCorrect {
+            if text == selectedAnswer {
+                return isCorrect ? .green.opacity(0.2) : .red.opacity(0.2)
+            } else if isCorrect && !isUserAnswer {
+                return .green.opacity(0.1)
+            }
+        }
+
+        return isSelected ? .blue.opacity(0.2) : Color(.systemBackground)
+    }
+
+    private var foregroundColor: Color {
+        if let isCorrect = isCorrect {
+            if text == selectedAnswer {
+                return isCorrect ? .green : .red
+            } else if isCorrect && !isUserAnswer {
+                return .green
+            }
+        }
+
+        return isSelected ? .blue : .primary
+    }
+
+    private var borderColor: Color {
+        if let isCorrect = isCorrect {
+            if text == selectedAnswer {
+                return isCorrect ? .green : .red
+            } else if isCorrect && !isUserAnswer {
+                return .green
+            }
+        }
+
+        return isSelected ? .blue : .gray.opacity(0.3)
+    }
+
+    private var borderWidth: CGFloat {
+        isSelected || isCorrect != nil ? 2 : 1
+    }
+
+    private var selectedAnswer: String? {
+        isUserAnswer ? text : nil
+    }
+}
+
+#Preview {
+    QuizView(category: .upperLimb)
+        .environmentObject(Settings())
+        .modelContainer(for: [Muscle.self, Quiz.self, QuizQuestion.self])
+}
