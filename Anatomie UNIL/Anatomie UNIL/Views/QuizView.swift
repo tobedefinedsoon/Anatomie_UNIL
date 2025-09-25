@@ -139,42 +139,6 @@ struct QuizQuestionView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
 
-                if showingResult, let isCorrect = isCorrect {
-                    VStack(spacing: 8) {
-                        Label(
-                            isCorrect ? "Correct !" : "Incorrect",
-                            systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
-                        )
-                        .font(.headline)
-                        .foregroundColor(isCorrect ? .green : .red)
-
-                        if isCorrect && autoAdvanceCountdown > 0 {
-                            VStack(spacing: 4) {
-                                Text("Question suivante dans")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-
-                                ZStack {
-                                    Circle()
-                                        .stroke(.gray.opacity(0.3), lineWidth: 4)
-                                        .frame(width: 40, height: 40)
-
-                                    Circle()
-                                        .trim(from: 0, to: CGFloat(autoAdvanceCountdown) / 2.0)
-                                        .stroke(.blue, lineWidth: 4)
-                                        .frame(width: 40, height: 40)
-                                        .rotationEffect(.degrees(-90))
-                                        .animation(.linear(duration: 1), value: autoAdvanceCountdown)
-
-                                    Text("\(autoAdvanceCountdown)")
-                                        .font(.headline)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.blue)
-                                }
-                            }
-                        }
-                    }
-                }
             }
             .padding(.top, 40)
 
@@ -215,6 +179,45 @@ struct QuizQuestionView: View {
                 }
             }
             .padding(.horizontal, 20)
+
+            // Feedback section
+            if showingResult, let isCorrect = isCorrect {
+                VStack(spacing: 8) {
+                    Label(
+                        isCorrect ? "Correct !" : "Incorrect",
+                        systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
+                    )
+                    .font(.headline)
+                    .foregroundColor(isCorrect ? .green : .red)
+
+                    if isCorrect && autoAdvanceCountdown > 0 {
+                        VStack(spacing: 4) {
+                            Text("Question suivante dans")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+
+                            ZStack {
+                                Circle()
+                                    .stroke(.gray.opacity(0.3), lineWidth: 4)
+                                    .frame(width: 40, height: 40)
+
+                                Circle()
+                                    .trim(from: 0, to: CGFloat(autoAdvanceCountdown) / 2.0)
+                                    .stroke(.blue, lineWidth: 4)
+                                    .frame(width: 40, height: 40)
+                                    .rotationEffect(.degrees(-90))
+                                    .animation(.linear(duration: 1), value: autoAdvanceCountdown)
+
+                                Text("\(autoAdvanceCountdown)")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                }
+                .padding(.top, 20)
+            }
 
             Spacer()
 
