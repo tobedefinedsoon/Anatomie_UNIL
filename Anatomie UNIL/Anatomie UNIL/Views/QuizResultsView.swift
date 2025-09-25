@@ -18,13 +18,23 @@ struct QuizResultsView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
+            ZStack {
+                // Background gradient
+                LinearGradient(
+                    colors: [Color.blue.opacity(0.6), Color.purple.opacity(0.4)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
                 VStack(spacing: 24) {
                     // Score header
                     VStack(spacing: 16) {
                         Text("Quiz terminé !")
                             .font(.largeTitle)
                             .fontWeight(.bold)
+                            .foregroundColor(.white)
 
                         // Grade circle
                         ZStack {
@@ -103,6 +113,7 @@ struct QuizResultsView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 40)
                 }
+            }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

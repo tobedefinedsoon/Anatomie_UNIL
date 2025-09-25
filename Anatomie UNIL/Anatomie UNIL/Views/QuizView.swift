@@ -33,20 +33,18 @@ struct QuizView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background
-                Color(.systemGroupedBackground)
-                    .ignoresSafeArea()
+                // Background gradient
+                LinearGradient(
+                    colors: [Color.blue.opacity(0.6), Color.purple.opacity(0.4)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
                 if viewModel.isQuizCompleted {
                     QuizResultsView(quiz: viewModel.currentQuiz!)
                 } else {
                     VStack(spacing: 0) {
-                        // Progress header
-                        QuizProgressHeader(
-                            progress: viewModel.progress,
-                            progressText: viewModel.progressText
-                        )
-
                         // Question content
                         if let question = viewModel.currentQuestion {
                             QuizQuestionView(
@@ -68,6 +66,12 @@ struct QuizView: View {
                                 showResultsImmediately: settings.showResultsImmediately
                             )
                         }
+
+                        // Progress footer
+                        QuizProgressHeader(
+                            progress: viewModel.progress,
+                            progressText: viewModel.progressText
+                        )
                     }
                 }
             }
@@ -104,16 +108,18 @@ struct QuizProgressHeader: View {
     var body: some View {
         VStack(spacing: 12) {
             ProgressView(value: progress)
-                .tint(.blue)
+                .tint(.white.opacity(0.8))
                 .scaleEffect(y: 2)
 
             Text(progressText)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .fontWeight(.medium)
+                .foregroundColor(.white.opacity(0.9))
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
-        .background(Color(.systemBackground))
+        .background(Color.white.opacity(0.15))
+        .cornerRadius(12)
     }
 }
 
@@ -134,10 +140,14 @@ struct QuizQuestionView: View {
             // Question
             VStack(spacing: 16) {
                 Text(question.question)
-                    .font(.title3)
-                    .fontWeight(.medium)
+                    .font(.title2)
+                    .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
                     .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                    .background(Color.white.opacity(0.1))
+                    .cornerRadius(12)
 
             }
             .padding(.top, 40)
@@ -190,7 +200,7 @@ struct QuizQuestionView: View {
                     .font(.headline)
                     .foregroundColor(isCorrect ? .green : .red)
 
-                    if isCorrect && autoAdvanceCountdown > 0 {
+                    if isCorrect && autoAdvanceCountdown >= 0 {
                         VStack(spacing: 4) {
                             Text("Question suivante dans")
                                 .font(.caption)
@@ -202,7 +212,7 @@ struct QuizQuestionView: View {
                                     .frame(width: 40, height: 40)
 
                                 Circle()
-                                    .trim(from: 0, to: CGFloat(autoAdvanceCountdown) / 2.0)
+                                    .trim(from: 0, to: CGFloat(max(0, autoAdvanceCountdown)) / 3.0)
                                     .stroke(.blue, lineWidth: 4)
                                     .frame(width: 40, height: 40)
                                     .rotationEffect(.degrees(-90))
@@ -227,11 +237,19 @@ struct QuizQuestionView: View {
                     Button(action: onSubmit) {
                         Text("Valider")
                             .font(.headline)
+                            .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color.blue, Color.purple.opacity(0.8)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
                             .cornerRadius(12)
+                            .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 40)
@@ -239,11 +257,13 @@ struct QuizQuestionView: View {
                     Button(action: onNext) {
                         Text("Suivant")
                             .font(.headline)
+                            .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.blue)
                             .cornerRadius(12)
+                            .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 40)
@@ -275,6 +295,7 @@ struct AnswerButton: View {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(borderColor, lineWidth: borderWidth)
                 )
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         }
         .disabled(isCorrect != nil) // Disable when showing results
     }
@@ -282,21 +303,21 @@ struct AnswerButton: View {
     private var backgroundColor: Color {
         if let isCorrect = isCorrect {
             if text == selectedAnswer {
-                return isCorrect ? .green.opacity(0.2) : .red.opacity(0.2)
+                return isCorrect ? .green.opacity(0.9) : .red.opacity(0.9)
             } else if isCorrect && !isUserAnswer {
-                return .green.opacity(0.1)
+                return .green.opacity(0.9)
             }
         }
 
-        return isSelected ? .blue.opacity(0.2) : Color(.systemBackground)
+        return isSelected ? .blue.opacity(0.3) : Color.white.opacity(0.9)
     }
 
     private var foregroundColor: Color {
         if let isCorrect = isCorrect {
             if text == selectedAnswer {
-                return isCorrect ? .green : .red
+                return isCorrect ? .white : .white
             } else if isCorrect && !isUserAnswer {
-                return .green
+                return .white
             }
         }
 

@@ -137,12 +137,16 @@ class QuizViewModel {
     }
 
     private func startAutoAdvanceCountdown() {
-        autoAdvanceCountdown = 2
+        autoAdvanceCountdown = 3
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.autoAdvanceCountdown -= 1
 
-            if self.autoAdvanceCountdown <= 0 {
-                self.nextQuestion()
+            if self.autoAdvanceCountdown < 0 {
+                // Add a small delay after showing 0 before advancing
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.nextQuestion()
+                }
+                self.stopCountdown()
             }
         }
     }
