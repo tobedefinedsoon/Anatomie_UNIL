@@ -46,7 +46,10 @@ struct MainMenuView: View {
                     Spacer()
 
                     // Quiz category buttons
-                    VStack(spacing: 20) {
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 15),
+                        GridItem(.flexible(), spacing: 15)
+                    ], spacing: 20) {
                         CategoryButton(
                             title: "Membre supérieur",
                             icon: "hand.raised.fill",
@@ -125,23 +128,23 @@ struct CategoryButton: View {
 
     var body: some View {
         NavigationLink(destination: QuizConfigurationView(category: category)) {
-            HStack {
+            VStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.title2)
-                    .frame(width: 30)
+                    .font(.title)
+                    .frame(height: 30)
 
                 Text(title)
-                    .font(.title3)
+                    .font(.body)
                     .fontWeight(.medium)
-
-                Spacer()
+                    .multilineTextAlignment(.center)
 
                 Image(systemName: "chevron.right")
-                    .font(.caption)
+                    .font(.caption2)
                     .opacity(0.6)
             }
             .foregroundColor(.primary)
             .padding()
+            .frame(maxWidth: .infinity, minHeight: 100)
             .background(Color.white.opacity(0.9))
             .cornerRadius(15)
             .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)

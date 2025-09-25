@@ -17,6 +17,9 @@ class QuizViewModel {
     var selectedAnswer: String?
     var showingResults: Bool = false
     var quizStartTime: Date?
+    var autoAdvanceCountdown: Int = 0
+    var showNextButton: Bool = false
+    private var countdownTimer: Timer?
 
     private let quizService: QuizService
     private let settings: Settings
@@ -53,6 +56,19 @@ class QuizViewModel {
 
     func selectAnswer(_ answer: String) {
         selectedAnswer = answer
+
+        if settings.showResultsImmediately {
+            showingResults = true
+
+            // Check if answer is correct
+            if isAnswerCorrect == true {
+                // Start 2-second countdown for correct answers
+                startAutoAdvanceCountdown()
+            } else {
+                // Show next button for incorrect answers
+                showNextButton = true
+            }
+        }
     }
 
     func submitAnswer() {
@@ -61,23 +77,27 @@ class QuizViewModel {
 
         quizService.answerQuestion(question, with: answer)
 
-        if settings.showResultsImmediately {
-            // Show feedback briefly, then move to next question
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.nextQuestion()
-            }
-        } else {
+        if !settings.showResultsImmediately {
             nextQuestion()
         }
+        // If showResultsImmediately is true, progression is handled in selectAnswer
     }
 
     private func nextQuestion() {
+        stopCountdown()
+        showNextButton = false
+        showingResults = false
+
         if currentQuestionIndex < (currentQuiz?.questions.count ?? 0) - 1 {
             currentQuestionIndex += 1
             selectedAnswer = nil
         } else {
             completeQuiz()
         }
+    }
+
+    func moveToNextQuestion() {
+        nextQuestion()
     }
 
     private func completeQuiz() {
@@ -95,11 +115,14 @@ class QuizViewModel {
     }
 
     func resetQuiz() {
+        stopCountdown()
         currentQuiz = nil
         currentQuestionIndex = 0
         isQuizCompleted = false
         selectedAnswer = nil
         showingResults = false
+        showNextButton = false
+        autoAdvanceCountdown = 0
         quizStartTime = nil
     }
 
@@ -111,5 +134,22 @@ class QuizViewModel {
 
     func getQuizHistory() -> [Quiz] {
         return quizService.getQuizHistory()
+    }
+
+    private func startAutoAdvanceCountdown() {
+        autoAdvanceCountdown = 2
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.autoAdvanceCountdown -= 1
+
+            if self.autoAdvanceCountdown <= 0 {
+                self.nextQuestion()
+            }
+        }
+    }
+
+    private func stopCountdown() {
+        countdownTimer?.invalidate()
+        countdownTimer = nil
+        autoAdvanceCountdown = 0
     }
 }

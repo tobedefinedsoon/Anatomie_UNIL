@@ -58,8 +58,14 @@ struct QuizView: View {
                                 onSubmit: {
                                     viewModel.submitAnswer()
                                 },
-                                showingResult: settings.showResultsImmediately && viewModel.selectedAnswer != nil,
-                                isCorrect: viewModel.isAnswerCorrect
+                                onNext: {
+                                    viewModel.moveToNextQuestion()
+                                },
+                                showingResult: viewModel.showingResults,
+                                isCorrect: viewModel.isAnswerCorrect,
+                                autoAdvanceCountdown: viewModel.autoAdvanceCountdown,
+                                showNextButton: viewModel.showNextButton,
+                                showResultsImmediately: settings.showResultsImmediately
                             )
                         }
                     }
@@ -116,8 +122,12 @@ struct QuizQuestionView: View {
     let selectedAnswer: String?
     let onAnswerSelected: (String) -> Void
     let onSubmit: () -> Void
+    let onNext: () -> Void
     let showingResult: Bool
     let isCorrect: Bool?
+    let autoAdvanceCountdown: Int
+    let showNextButton: Bool
+    let showResultsImmediately: Bool
 
     var body: some View {
         VStack(spacing: 24) {
@@ -130,27 +140,76 @@ struct QuizQuestionView: View {
                     .padding(.horizontal, 20)
 
                 if showingResult, let isCorrect = isCorrect {
-                    Label(
-                        isCorrect ? "Correct !" : "Incorrect",
-                        systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
-                    )
-                    .font(.headline)
-                    .foregroundColor(isCorrect ? .green : .red)
+                    VStack(spacing: 8) {
+                        Label(
+                            isCorrect ? "Correct !" : "Incorrect",
+                            systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
+                        )
+                        .font(.headline)
+                        .foregroundColor(isCorrect ? .green : .red)
+
+                        if isCorrect && autoAdvanceCountdown > 0 {
+                            VStack(spacing: 4) {
+                                Text("Question suivante dans")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+
+                                ZStack {
+                                    Circle()
+                                        .stroke(.gray.opacity(0.3), lineWidth: 4)
+                                        .frame(width: 40, height: 40)
+
+                                    Circle()
+                                        .trim(from: 0, to: CGFloat(autoAdvanceCountdown) / 2.0)
+                                        .stroke(.blue, lineWidth: 4)
+                                        .frame(width: 40, height: 40)
+                                        .rotationEffect(.degrees(-90))
+                                        .animation(.linear(duration: 1), value: autoAdvanceCountdown)
+
+                                    Text("\(autoAdvanceCountdown)")
+                                        .font(.headline)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.blue)
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .padding(.top, 40)
 
             // Answer options
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                ForEach(question.options, id: \.self) { option in
-                    AnswerButton(
-                        text: option,
-                        isSelected: selectedAnswer == option,
-                        isCorrect: showingResult ? option == question.correctAnswer : nil,
-                        isUserAnswer: showingResult && selectedAnswer == option
-                    ) {
-                        if !showingResult {
-                            onAnswerSelected(option)
+            Group {
+                if UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.orientation.isLandscape {
+                    // Grid layout for iPad or landscape orientation
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        ForEach(question.options, id: \.self) { option in
+                            AnswerButton(
+                                text: option,
+                                isSelected: selectedAnswer == option,
+                                isCorrect: showingResult ? option == question.correctAnswer : nil,
+                                isUserAnswer: showingResult && selectedAnswer == option
+                            ) {
+                                if !showingResult || !showResultsImmediately {
+                                    onAnswerSelected(option)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Vertical stack for portrait iPhone
+                    VStack(spacing: 16) {
+                        ForEach(question.options, id: \.self) { option in
+                            AnswerButton(
+                                text: option,
+                                isSelected: selectedAnswer == option,
+                                isCorrect: showingResult ? option == question.correctAnswer : nil,
+                                isUserAnswer: showingResult && selectedAnswer == option
+                            ) {
+                                if !showingResult || !showResultsImmediately {
+                                    onAnswerSelected(option)
+                                }
+                            }
                         }
                     }
                 }
@@ -159,19 +218,33 @@ struct QuizQuestionView: View {
 
             Spacer()
 
-            // Submit button
-            if selectedAnswer != nil && !showingResult {
-                Button(action: onSubmit) {
-                    Text("Valider")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(12)
+            // Submit/Next button
+            if selectedAnswer != nil {
+                if !showingResult {
+                    Button(action: onSubmit) {
+                        Text("Valider")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 40)
+                } else if showNextButton {
+                    Button(action: onNext) {
+                        Text("Suivant")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 40)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 40)
             }
         }
     }
