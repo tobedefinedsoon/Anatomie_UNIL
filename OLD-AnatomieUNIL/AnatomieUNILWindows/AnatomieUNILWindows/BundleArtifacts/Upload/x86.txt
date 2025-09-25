@@ -1,2 +1,0 @@
-MainPackage=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\x86\Release\Upload\AnatomieUNILWindows_6.0.11.0_x86.appx
-SymbolPackage=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\x86\Release\Upload\AnatomieUNILWindows_6.0.11.0\AnatomieUNILWindows_6.0.11.0_x86.appxsym

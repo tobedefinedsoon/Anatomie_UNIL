@@ -1,6 +1,0 @@
-MainPackage=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\ARM\Release\AnatomieUNILWindows_6.0.11.0_ARM.appx
-SymbolPackage=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\AppPackages\AnatomieUNILWindows_6.0.11.0_Test\AnatomieUNILWindows_6.0.11.0_ARM.appxsym
-ResourcePack=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\ARM\Release\AnatomieUNILWindows_6.0.11.0_scale-100.appx
-ResourcePack=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\ARM\Release\AnatomieUNILWindows_6.0.11.0_scale-125.appx
-ResourcePack=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\ARM\Release\AnatomieUNILWindows_6.0.11.0_scale-150.appx
-ResourcePack=C:\Users\glagl\OneDrive\Documents\GitHub\Anatomie_UNIL\AnatomieUNILWindows\AnatomieUNILWindows\bin\ARM\Release\AnatomieUNILWindows_6.0.11.0_scale-400.appx
