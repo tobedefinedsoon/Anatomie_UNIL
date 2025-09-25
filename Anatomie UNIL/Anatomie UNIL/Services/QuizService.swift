@@ -136,11 +136,8 @@ class QuizService {
     func answerQuestion(_ question: QuizQuestion, with answer: String) {
         question.answer(answer)
 
-        // Update quiz score if correct
-        if question.isCorrect {
-            // Find the quiz containing this question and update score
-            updateQuizScore(for: question)
-        }
+        // Always update quiz score after answering (regardless of correct/incorrect)
+        updateQuizScore(for: question)
 
         do {
             try modelContext.save()

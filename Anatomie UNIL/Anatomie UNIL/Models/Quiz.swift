@@ -78,7 +78,10 @@ final class QuizQuestion {
 
     func answer(_ answer: String) {
         self.userAnswer = answer
-        self.isCorrect = (answer == correctAnswer)
+        // Trim whitespace and compare case-insensitively to handle potential string issues
+        let trimmedAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedCorrect = correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.isCorrect = trimmedAnswer.lowercased() == trimmedCorrect.lowercased()
         self.answeredAt = Date()
     }
 }

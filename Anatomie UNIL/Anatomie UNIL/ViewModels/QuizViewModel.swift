@@ -57,6 +57,9 @@ class QuizViewModel {
     func selectAnswer(_ answer: String) {
         selectedAnswer = answer
 
+        // Always submit the answer immediately when selected
+        submitAnswer()
+
         if settings.showResultsImmediately {
             showingResults = true
 
@@ -77,10 +80,11 @@ class QuizViewModel {
 
         quizService.answerQuestion(question, with: answer)
 
+        // Only advance automatically if results are not shown immediately
+        // When showResultsImmediately is true, progression is handled by countdown/next button
         if !settings.showResultsImmediately {
             nextQuestion()
         }
-        // If showResultsImmediately is true, progression is handled in selectAnswer
     }
 
     private func nextQuestion() {
@@ -104,6 +108,10 @@ class QuizViewModel {
         guard let quiz = currentQuiz, let startTime = quizStartTime else { return }
 
         quiz.duration = Date().timeIntervalSince(startTime)
+
+        // Calculate final score
+        quiz.score = quiz.questions.filter { $0.isCorrect }.count
+
         isQuizCompleted = true
         showingResults = true
 
