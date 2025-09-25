@@ -7,13 +7,24 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class Statistics: ObservableObject {
-    @AppStorage("totalQuestionsAnswered") var totalQuestionsAnswered: Int = 0
-    @AppStorage("totalCorrectAnswers") var totalCorrectAnswers: Int = 0
-    @AppStorage("totalIncorrectAnswers") var totalIncorrectAnswers: Int = 0
-    @AppStorage("appLaunchCount") var appLaunchCount: Int = 0
-    @AppStorage("lastLaunchDate") var lastLaunchDate: Double = 0
+    @AppStorage("totalQuestionsAnswered") var totalQuestionsAnswered: Int = 0 {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("totalCorrectAnswers") var totalCorrectAnswers: Int = 0 {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("totalIncorrectAnswers") var totalIncorrectAnswers: Int = 0 {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("appLaunchCount") var appLaunchCount: Int = 0 {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("lastLaunchDate") var lastLaunchDate: Double = 0 {
+        didSet { objectWillChange.send() }
+    }
 
     var successRate: Double {
         guard totalQuestionsAnswered > 0 else { return 0 }

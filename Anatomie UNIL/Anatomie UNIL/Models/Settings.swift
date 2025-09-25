@@ -7,15 +7,30 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class Settings: ObservableObject {
-    @AppStorage("questionCount") var questionCount: Int = 20
-    @AppStorage("enableOrigin") var enableOrigin: Bool = true
-    @AppStorage("enableInsertion") var enableInsertion: Bool = true
-    @AppStorage("enableInnervation") var enableInnervation: Bool = true
-    @AppStorage("enableVascularization") var enableVascularization: Bool = false
-    @AppStorage("showResultsImmediately") var showResultsImmediately: Bool = true
-    @AppStorage("hapticFeedback") var hapticFeedback: Bool = true
+    @AppStorage("questionCount") var questionCount: Int = 20 {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("enableOrigin") var enableOrigin: Bool = true {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("enableInsertion") var enableInsertion: Bool = true {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("enableInnervation") var enableInnervation: Bool = true {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("enableVascularization") var enableVascularization: Bool = false {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("showResultsImmediately") var showResultsImmediately: Bool = true {
+        didSet { objectWillChange.send() }
+    }
+    @AppStorage("hapticFeedback") var hapticFeedback: Bool = true {
+        didSet { objectWillChange.send() }
+    }
 
     var enabledQuestionTypes: [QuestionType] {
         var types: [QuestionType] = []
