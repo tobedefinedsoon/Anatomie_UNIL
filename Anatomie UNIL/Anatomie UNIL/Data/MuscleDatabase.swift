@@ -96,10 +96,10 @@ struct MuscleDatabase {
         ("muscle moyen fessier", "Face ext. de l'ilium, entre lignes glutéales postérieures et antérieures", "Grand trochanter", "N. glutéal supérieur", "Artère glutéale supérieure"),
         ("muscle petit fessier", "Face ext. de l'ilium, entre lignes glutéales antérieures et inférieures", "Grand trochanter", "N. glutéal supérieur", "Artère glutéale supérieure"),
         ("muscle piriforme", "Plusieurs digitations sur la face pelvienne du sacrum en dehors des trous sacrés antérieurs et bord de la grande échancrure sciatique", "Face médiale de la pointe du grand trochanter", "Plexus sacré", "Artères glutéales"),
-        ("muscle obturateur interne", "Face int. de la membrane obturatrice et cadre osseux voisin de l'os coxal", "Fosse trochantérique du fémur", "N. du m. obturateur interne", "Artères glutéales inférieures, artère honteuse interne"),
-        ("muscle jumeau supérieur", "Epine sciatique", "Tendon du m. obturateur inférieur", "N. glutéal inférieur et plexus sacré", "Artère glutéale inférieure"),
-        ("muscle jumeau inférieur", "Tubérosité ischiatique", "Fosse trochantérique du fémur", "N. glutéal inférieur et plexus sacré", "Artère glutéale inférieure"),
-        ("muscle carré fémoral", "Tubérosité ischiatique", "Crête intertrochantérique", "N. glutéal inférieur et plexus sacré", "Artère circonflexe, artère glutéale"),
+        ("muscle obturateur interne", "Face int. de la membrane obturatrice et cadre osseux voisin de l'os coxal", "Face médiale du grand trochanter", "N. du m. obturateur interne", "Artères glutéales inférieures, artère honteuse interne"),
+        ("muscle jumeau supérieur", "Epine sciatique", "Tendon du m. obturateur interne", "N. de l’obturateur interne", "Artère glutéale inférieure"),
+        ("muscle jumeau inférieur", "Tubérosité ischiatique", "Fosse trochantérique du fémur", "N. du carré fémoral", "Artère glutéale inférieure"),
+        ("muscle carré fémoral", "Tubérosité ischiatique", "Crête intertrochantérique", "N. du carré fémoral", "Artère circonflexe, artère glutéale"),
         ("muscle obturateur externe", "Face ext. de la membrane obturatrice et cadre osseux voisin de l'os coxal", "Fosse trochantérique du fémur", "N. obturateur", "Artère obturatrice")
     ]
 
@@ -117,7 +117,7 @@ struct MuscleDatabase {
         ("muscle grand adducteur faisceau inférieur (cuisse)", "Branche de l'ischion jusqu'à la tubérosité ischiatique", "Tubercule du grand adducteur sur l'épicondyle médial du fémur", "N. tibial", "Artère circonflexe médiale, artères perforantes, artère obturatrice, branche de l'artère poplitée"),
         ("muscle gracile (droit interne)", "Branche descendante du pubis médial au m. grand adducteur", "Face médiale de la tubérosité du tibia (patte d'oie)", "Branche antérieure du n. obturateur", "Artère obturatrice, artère circonflexe médiale"),
         ("muscle biceps fémoral chef long", "Tubérosité ischiatique", "Tête de la fibula", "N. sciatique (n. tibial; n. sciatique poplité int.)", "Branches perforantes de l'artère fémorale (profonde), branche de l'artère poplitée"),
-        ("muscle biceps fémoral chef court", "Tiers moyen de la lèvre latéral de la ligne âpre du fémur et de la cloison intermusculaire latéral de la cuisse", "Tête de la fibula", "N. sciatique (n. fibulaire commun, n. sciatique poplité ext.", "Branches perforantes de l'artère fémorale (profonde), branche de l'artère poplitée"),
+        ("muscle biceps fémoral chef court", "Tiers moyen de la lèvre latéral de la ligne âpre du fémur et de la cloison intermusculaire latéral de la cuisse", "Tête de la fibula", "N. sciatique (n. fibulaire commun, n. sciatique poplité ext.)", "Branches perforantes de l'artère fémorale (profonde), branche de l'artère poplitée"),
         ("muscle semi-tendineux", "Tubérosité ischiatique", "Face médiale de la tubérosité du tibia (patte d'oie)", "N. tibial", "Branches perforantes de l'artère fémorale profonde, branche de l'artère poplitée"),
         ("muscle semi-membraneux", "Tubérosité ischiatique", "Condyle médial du tibia, et ligament poplité oblique", "N. tibial", "Branches perforantes de l'artère fémorale profonde, branche de l'artère poplitée")
     ]
@@ -140,18 +140,18 @@ struct MuscleDatabase {
     ]
 
     static let footMuscles = [
-        ("muscle court extenseur des orteils", "Calcanéus (face dorsale)", "Aponévroses dorsales des orteils 2-4", "N. fibulaire profond", ""),
-        ("muscle court extenseur de l'hallux", "Calcanéus (face dorsale)", "Face dorsale de la phalange proximale de l'hallux", "N. fibulaire profond", ""),
-        ("muscle abducteur de l'hallux", "Processus médial de la tubérosité du calcanéus", "Sésamoïde médial et base de la phalange prox. de l'hallux", "N. plantaire médial", "Artère plantaire"),
+        ("muscle court extenseur des orteils", "Calcanéus (face dorsale)", "Aponévroses dorsales des orteils 2-4", "N. fibulaire profond", "Artère dorsale du pied"),
+        ("muscle court extenseur de l'hallux", "Calcanéus (face dorsale)", "Face dorsale de la phalange proximale de l'hallux", "N. fibulaire profond", "Artère dorsale du pied"),
+        ("muscle abducteur de l'hallux", "Processus médial de la tubérosité du calcanéus", "Sésamoïde médial et base de la phalange prox. de l'hallux", "N. plantaire médial", "Artère plantaire médiale"),
         ("muscle court fléchisseur de l'hallux", "Os cuboïde et lig. plantaire", "Deux chefs, sur les deux sésamoïdes et la base de la phalange prox. de l'hallux", "N. plantaire médial", "Artères plantaires"),
         ("muscle adducteur de l'hallux chef oblique", "Base des métatarsiens 2-4, du 3e cunéiforme (latéral) et du cuboïde", "Os sésamoïde latéral & phalange prox. de l'hallux", "N. plantaire latéral", "Artères plantaires"),
         ("muscle adducteur de l'hallux chef transverse", "capsule art. métatarsophalangiennes des orteils 3-5", "Os sésamoïde latéral", "N. plantaire latéral", "Artères plantaires"),
-        ("muscle abducteur du 5e orteil", "Tubérosité ext. du calcanéus et aponévrose plantaire", "Côté latéral base phalange prox. du petit orteil", "N. plantaire latéral", ""),
+        ("muscle abducteur du 5e orteil", "Tubérosité ext. du calcanéus et aponévrose plantaire", "Côté latéral base phalange prox. du petit orteil", "N. plantaire latéral", "Artère plantaire latérale"),
         ("muscle court fléchisseur du 5e orteil", "Base du 5e métatarsien", "Base phalange prox. du petit orteil", "N. plantaire latéral", "Artère plantaire"),
-        ("muscle opposant du 5e orteil", "Lig. plantaire long et gaine du m. long fibulaire", "Bord latéral du 5e métatarsien", "N. plantaire latéral", "Artère plantaire"),
-        ("muscle court fléchisseur des orteils", "Tubérosité postérieur du calcanéus et aponévrose plantaire", "Par des tendons divisés à la phalange moyenne des orteils 2-5", "N. plantaire latéral", "Artère plantaire médiale"),
+        ("muscle opposant du 5e orteil", "Lig. plantaire long et gaine du m. long fibulaire", "Bord latéral du 5e métatarsien", "N. plantaire latéral", "Artère plantaire latérale"),
+        ("muscle court fléchisseur des orteils", "Tubérosité postérieur du calcanéus et aponévrose plantaire", "Par des tendons divisés à la phalange moyenne des orteils 2-5", "N. plantaire médial", "Artère plantaire médiale"),
         ("muscle carré plantaire", "Bord médial et latéral du calcanéus", "Bord latéral du tendon du m. long fléchisseur des orteils", "N. plantaire latéral", "Artères plantaires"),
-        ("muscles lombricaux", "Côté médial des tendons du m. long fléchisseur des orteils", "Bord. méd des phalanges prox. des orteils 2 à 5", "N. plantaire latéral", "Artères plantaires"),
+        ("muscles lombricaux", "Côté médial des tendons du m. long fléchisseur des orteils", "Bord. méd des phalanges prox. des orteils 2 à 5", "Nn. 1er médial; 2–4 latéral", "Artères plantaires"),
         ("muscles interosseux plantaires", "Par 1 seul chef sur les métatarsiens 2-5", "Base des phalanges prox. des orteils 3-5", "N. plantaire latéral", "Arcade plantaire"),
         ("muscles interosseux dorsaux", "Par 2 chefs sur les métatarsiens adjacents 1-5", "Aponévrose dorsale des phalanges prox. des orteils 2 à 4", "N. plantaire latéral", "Arcade plantaire")
     ]
@@ -162,8 +162,8 @@ struct MuscleDatabase {
         ("muscle trapèze", "Processus épineux C7-T12, ligament nuchale, protubérance occipitale ext., ligne nuchale supérieur", "Epine de la scapula, acromion, clavicule (1/3 latéral)", "N. accessoire (XI) et plexus cervical", ""),
         ("muscle sterno-cléido-mastoïdien", "Sternum et clavicule", "Processus mastoïde, ligne nuchale supérieure de l'os occipital", "N. accessoire (XI) et plexus cervical", ""),
         ("muscle élévateur de la scapula", "Tubercule postérieur des processus transverses de C1-C4", "Angle supérieur de la scapula", "N. dorsal de la scapula", ""),
-        ("muscle splénius de la tête", "Processus épineux C4-T3", "Moitié latérale de la ligne nuchale supérieure, processus mastoïde de l'os temporal", "Branche postérieure des nn. spinaux", ""),
-        ("muscle splénius du cou", "Processus épineux T3-T5", "Tubercule postérieur des processuss transverses de C1 et C2", "Branche postérieure des nn. spinaux", ""),
+        ("muscle splénius de la tête", "Processus épineux C7-T3", "Moitié latérale de la ligne nuchale supérieure, processus mastoïde de l'os temporal", "Branche postérieure des nn. spinaux", ""),
+        ("muscle splénius du cou", "Processus épineux T3-T6", "Tubercule postérieur des processuss transverses de C1 et C3", "Branche postérieure des nn. spinaux", ""),
         ("muscle semi-épineux de la tête", "Processus transverses C4-T6", "Entre les lignes nuchales supérieures et inférieures de l'os occipital", "Branche postérieure des nn. spinaux", ""),
         ("muscle grand droit postérieur de la tête", "Processus épineux de l'axis (C2)", "Tiers moyen de la ligne nuchale inférieur", "Branche postérieure du n. C1 (suboccipital)", ""),
         ("muscle petit droit postérieure de la tête", "Tubercule postérieur de l'atlas (C1)", "Tiers médial de la ligne nuchale inférieure", "Branche postérieure du n. C1 (suboccipital)", ""),
@@ -175,7 +175,7 @@ struct MuscleDatabase {
         ("muscle grand dorsal", "Processus épineux T7-L5, aponévrose lombaire, crête iliaque, sacrum", "Crête du tubercule mineur de l'humérus", "N. thoraco-dorsal", ""),
         ("muscle grand rhomboïde", "Processus épineux T1-T4", "Bord médial de la scapula, au-dessous de l'épine", "N. dorsal de la scapula", ""),
         ("muscle petit rhomboïde", "Processus épineux C6-C7", "Bord médial de la scapula, au-dessus de l'épine", "N. dorsal de la scapula", ""),
-        ("muscle dentelé postérieur et supérieur", "Processus épineux C6-T2", "De la 2e à la 6e côte", "N. intercostaux", ""),
+        ("muscle dentelé postérieur et supérieur", "Processus épineux C7-T3", "De la 2e à la 5e côte", "N. intercostaux", ""),
         ("muscle dentelé postérieur et inférieur", "Processus épineux T11-L2", "De la 9e à la 12e côte", "N. intercostaux", ""),
         ("muscle ilio-costal du cou", "Angle des côtes supérieures", "Processus transverses C3-C5", "Branche postérieure nn. spinaux", ""),
         ("muscle ilio-costal du thorax", "angle médial des 6 côtes inférieures", "Les 6 côtes supérieures", "Branche postérieure nn. spinaux", ""),
@@ -190,7 +190,7 @@ struct MuscleDatabase {
         ("muscle semi-épineux du thorax", "Processus transverses T7-T12", "Processus épineux C6-T6", "Branche postérieure nn. spinaux", ""),
         ("muscles rotateurs et multifides", "Processus transverse", "Processus épineux", "Branche postérieure nn. spinaux", ""),
         ("muscle inter-épineux", "Processus épineux (cervical et lombaire)", "Processus épineux adjacent", "Branche postérieure nn. spinaux", ""),
-        ("muscle inter-transversaire", "Processus transverse (cervical et lombaire", "Processus transverse adjacent", "Branche postérieure nn. spinaux", "")
+        ("muscle inter-transversaire", "Processus transverse (cervical et lombaire)", "Processus transverse adjacent", "Branche postérieure nn. spinaux", "")
     ]
 
     static let thoraxAndAbdomenMuscles = [
