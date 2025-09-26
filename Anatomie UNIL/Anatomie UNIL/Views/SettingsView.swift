@@ -44,6 +44,33 @@ struct SettingsView: View {
                     .padding(.vertical, 4)
                 }
 
+                Section("Temps par question") {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Temps: \(settings.timePerQuestion) secondes")
+                                .font(.headline)
+                            Spacer()
+                        }
+
+                        Slider(value: Binding(
+                            get: { Double(settings.timePerQuestion) },
+                            set: { settings.timePerQuestion = Int($0) }
+                        ), in: 10...120, step: 5)
+                        .tint(.blue)
+
+                        HStack {
+                            Text("10s")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("2min")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+
                 Section("Types de questions par défaut") {
                     Toggle("Origine", isOn: $settings.enableOrigin)
                     Toggle("Terminaison", isOn: $settings.enableInsertion)

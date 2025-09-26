@@ -20,7 +20,9 @@ class QuizViewModel {
     var autoAdvanceCountdown: Int = 0
     var showNextButton: Bool = false
     var displayedQuestion: QuizQuestion? // The question currently displayed to the user
+    var questionTimeRemaining: Int = 0
     private var countdownTimer: Timer?
+    private var questionTimer: Timer?
 
     private let quizService: QuizService
     private let settings: Settings
@@ -60,12 +62,16 @@ class QuizViewModel {
         selectedAnswer = nil
         showingResults = false
         displayedQuestion = nil
+        startQuestionTimer()
     }
 
     func selectAnswer(_ answer: String) {
         selectedAnswer = answer
 
         if settings.showResultsImmediately {
+            // Stop the question timer since user answered
+            stopQuestionTimer()
+
             // Capture the current question before any changes
             guard let quiz = currentQuiz,
                   currentQuestionIndex < quiz.questions.count else { return }
@@ -92,6 +98,9 @@ class QuizViewModel {
         guard let question = currentQuestion,
               let answer = selectedAnswer else { return }
 
+        // Stop the question timer since user submitted answer
+        stopQuestionTimer()
+
         quizService.answerQuestion(question, with: answer)
 
         if !settings.showResultsImmediately {
@@ -103,12 +112,14 @@ class QuizViewModel {
 
     private func nextQuestion() {
         stopCountdown()
+        stopQuestionTimer()
         showNextButton = false
         showingResults = false
 
         if currentQuestionIndex < (currentQuiz?.questions.count ?? 0) - 1 {
             currentQuestionIndex += 1
             selectedAnswer = nil
+            startQuestionTimer()
         } else {
             completeQuiz()
         }
@@ -145,6 +156,7 @@ class QuizViewModel {
 
     func resetQuiz() {
         stopCountdown()
+        stopQuestionTimer()
         currentQuiz = nil
         currentQuestionIndex = 0
         isQuizCompleted = false
@@ -152,6 +164,7 @@ class QuizViewModel {
         showingResults = false
         showNextButton = false
         autoAdvanceCountdown = 0
+        questionTimeRemaining = 0
         quizStartTime = nil
         displayedQuestion = nil
     }
@@ -185,5 +198,43 @@ class QuizViewModel {
         countdownTimer?.invalidate()
         countdownTimer = nil
         autoAdvanceCountdown = 0
+    }
+
+    private func startQuestionTimer() {
+        questionTimeRemaining = settings.timePerQuestion
+        questionTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.questionTimeRemaining -= 1
+
+            if self.questionTimeRemaining <= 0 {
+                self.handleQuestionTimeout()
+            }
+        }
+    }
+
+    private func stopQuestionTimer() {
+        questionTimer?.invalidate()
+        questionTimer = nil
+        questionTimeRemaining = 0
+    }
+
+    private func handleQuestionTimeout() {
+        stopQuestionTimer()
+
+        // If no answer was selected, mark as incorrect and move to next question
+        if selectedAnswer == nil {
+            // Mark question as timed out (incorrect)
+            if let question = currentQuestion {
+                quizService.answerQuestion(question, with: "")
+            }
+            nextQuestion()
+        } else if !showingResults {
+            // If answer was selected but not submitted, submit it
+            submitAnswer()
+        }
+    }
+
+    var questionProgress: Double {
+        guard settings.timePerQuestion > 0 else { return 0 }
+        return Double(settings.timePerQuestion - questionTimeRemaining) / Double(settings.timePerQuestion)
     }
 }

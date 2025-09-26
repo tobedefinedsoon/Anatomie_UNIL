@@ -63,7 +63,10 @@ struct QuizView: View {
                                 isCorrect: viewModel.isAnswerCorrect,
                                 autoAdvanceCountdown: viewModel.autoAdvanceCountdown,
                                 showNextButton: viewModel.showNextButton,
-                                showResultsImmediately: settings.showResultsImmediately
+                                showResultsImmediately: settings.showResultsImmediately,
+                                questionTimeRemaining: viewModel.questionTimeRemaining,
+                                questionProgress: viewModel.questionProgress,
+                                totalTime: settings.timePerQuestion
                             )
                         }
 
@@ -134,10 +137,13 @@ struct QuizQuestionView: View {
     let autoAdvanceCountdown: Int
     let showNextButton: Bool
     let showResultsImmediately: Bool
+    let questionTimeRemaining: Int
+    let questionProgress: Double
+    let totalTime: Int
 
     var body: some View {
         VStack(spacing: 24) {
-            // Question
+            // Question with animated border
             VStack(spacing: 16) {
                 Text(question.question)
                     .font(.title2)
@@ -148,7 +154,42 @@ struct QuizQuestionView: View {
                     .padding(.vertical, 16)
                     .background(Color.white.opacity(0.1))
                     .cornerRadius(12)
-
+                    .overlay(
+                        // Animated border that fills as time progresses
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(
+                                AngularGradient(
+                                    gradient: Gradient(colors: [
+                                        questionTimeRemaining <= 5 ? .purple : .blue,
+                                        .clear
+                                    ]),
+                                    center: .center,
+                                    startAngle: .degrees(-90),
+                                    endAngle: .degrees(-90 + (360 * questionProgress))
+                                ),
+                                lineWidth: showingResult ? 0 : 4
+                            )
+                            .animation(.linear(duration: 1), value: questionProgress)
+                    )
+                    .overlay(
+                        // Timer digit in bottom right corner
+                        Group {
+                            if questionTimeRemaining > 0 && !showingResult {
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Text("\(questionTimeRemaining)")
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.gray.opacity(0.7))
+                                            .padding(.trailing, 8)
+                                            .padding(.bottom, 8)
+                                    }
+                                }
+                            }
+                        }
+                    )
             }
             .padding(.top, 40)
 
