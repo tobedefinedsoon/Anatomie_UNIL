@@ -20,12 +20,19 @@ struct QuizConfigurationView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Catégorie") {
-                    HStack {
-                        Image(systemName: categoryIcon)
-                            .foregroundColor(.blue)
-                        Text(categoryTitle)
+                if category == nil {
+                    Section("Catégorie") {
+                        Text("Toutes les catégories")
                             .font(.headline)
+                    }
+                } else {
+                    Section("Catégorie") {
+                        HStack {
+                            Image(systemName: iconForCategory(category!))
+                                .foregroundColor(.blue)
+                            Text(category!.rawValue)
+                                .font(.headline)
+                        }
                     }
                 }
 
@@ -56,27 +63,43 @@ struct QuizConfigurationView: View {
                     .padding(.vertical, 4)
                 }
 
+                Section("Temps par question") {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Temps: \(settings.timePerQuestion) secondes")
+                                .font(.headline)
+                            Spacer()
+                        }
+
+                        Slider(value: Binding(
+                            get: { Double(settings.timePerQuestion) },
+                            set: { settings.timePerQuestion = Int($0) }
+                        ), in: 10...120, step: 5)
+                        .tint(.blue)
+
+                        HStack {
+                            Text("10s")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("2min")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+
                 Section("Types de questions") {
                     Toggle("Origine", isOn: $settings.enableOrigin)
                     Toggle("Terminaison", isOn: $settings.enableInsertion)
                     Toggle("Innervation", isOn: $settings.enableInnervation)
                     Toggle("Vascularisation", isOn: $settings.enableVascularization)
                 }
-
-                Section("Options") {
-                    Toggle("Afficher les résultats immédiatement", isOn: $settings.showResultsImmediately)
-                    Toggle("Retour haptique", isOn: $settings.hapticFeedback)
-                }
             }
             .navigationTitle("Configuration")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annuler") {
-                        dismiss()
-                    }
-                }
-
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Commencer") {
                         startQuiz = true
@@ -91,11 +114,7 @@ struct QuizConfigurationView: View {
         }
     }
 
-    private var categoryTitle: String {
-        category?.rawValue ?? "Toutes les catégories"
-    }
-
-    private var categoryIcon: String {
+    private func iconForCategory(_ category: MuscleCategory) -> String {
         switch category {
         case .upperLimb:
             return "hand.raised.fill"
@@ -103,8 +122,6 @@ struct QuizConfigurationView: View {
             return "figure.walk"
         case .trunk:
             return "person.fill"
-        case .none:
-            return "globe"
         }
     }
 

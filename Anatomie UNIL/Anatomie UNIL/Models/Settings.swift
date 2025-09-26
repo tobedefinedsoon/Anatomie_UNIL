@@ -31,6 +31,9 @@ class Settings: ObservableObject {
     @AppStorage("hapticFeedback") var hapticFeedback: Bool = true {
         didSet { objectWillChange.send() }
     }
+    @AppStorage("timePerQuestion") var timePerQuestion: Int = 30 {
+        didSet { objectWillChange.send() }
+    }
 
     var enabledQuestionTypes: [QuestionType] {
         var types: [QuestionType] = []
@@ -49,5 +52,6 @@ class Settings: ObservableObject {
         enableVascularization = false
         showResultsImmediately = true
         hapticFeedback = true
+        timePerQuestion = 30
     }
 }
