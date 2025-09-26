@@ -16,7 +16,6 @@ struct QuizView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var viewModel: QuizViewModel
-    @State private var showingExitAlert = false
 
     init(category: MuscleCategory?) {
         self.category = category
@@ -81,8 +80,12 @@ struct QuizView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Quitter") {
-                        showingExitAlert = true
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .foregroundColor(.white)
                     }
                 }
             }
@@ -92,14 +95,6 @@ struct QuizView: View {
             let quizService = QuizService(modelContext: modelContext, settings: settings)
             viewModel = QuizViewModel(quizService: quizService, settings: settings)
             viewModel.startQuiz(category: category)
-        }
-        .alert("Quitter le quiz", isPresented: $showingExitAlert) {
-            Button("Annuler", role: .cancel) { }
-            Button("Quitter", role: .destructive) {
-                dismiss()
-            }
-        } message: {
-            Text("Êtes-vous sûr de vouloir quitter le quiz ? Votre progression sera perdue.")
         }
     }
 }
