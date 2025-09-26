@@ -70,13 +70,12 @@ final class Anatomie_UNILTests: XCTestCase {
         XCTAssertNotNil(quiz.id)
     }
 
-    func testQuizGradeCalculation() throws {
+    func testQuizPercentageCalculation() throws {
         let quiz = Quiz()
         quiz.score = 15
         quiz.totalQuestions = 20
 
         XCTAssertEqual(quiz.percentageScore, 75.0)
-        XCTAssertEqual(quiz.grade, 4) // 72-85% = grade 4
     }
 
     func testQuestionTypeAnswers() throws {

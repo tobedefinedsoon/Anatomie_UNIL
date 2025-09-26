@@ -36,7 +36,7 @@ struct QuizResultsView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.white)
 
-                        // Grade circle
+                        // Percentage circle
                         ZStack {
                             Circle()
                                 .stroke(Color.gray.opacity(0.3), lineWidth: 8)
@@ -44,17 +44,14 @@ struct QuizResultsView: View {
 
                             Circle()
                                 .trim(from: 0, to: quiz.percentageScore / 100)
-                                .stroke(gradeColor, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                                .stroke(percentageColor, style: StrokeStyle(lineWidth: 8, lineCap: .round))
                                 .frame(width: 120, height: 120)
                                 .rotationEffect(.degrees(-90))
 
                             VStack {
-                                Text("\(quiz.grade)")
-                                    .font(.system(size: 36, weight: .bold))
-                                    .foregroundColor(gradeColor)
-                                Text("/ 6")
-                                    .font(.title3)
-                                    .foregroundColor(.secondary)
+                                Text("\(Int(quiz.percentageScore))%")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(percentageColor)
                             }
                         }
 
@@ -69,9 +66,15 @@ struct QuizResultsView: View {
                         }
 
                         if quiz.duration > 0 {
-                            Text("Temps: \(formatDuration(quiz.duration))")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                            VStack(spacing: 4) {
+                                Text("Temps total: \(formatDuration(quiz.duration))")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+
+                                Text("Temps moyen par question: \(formatAverageTimePerQuestion())")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                     .padding(.top, 20)
@@ -132,20 +135,75 @@ struct QuizResultsView: View {
         }
     }
 
-    private var gradeColor: Color {
-        switch quiz.grade {
-        case 6: return .green
-        case 5: return .blue
-        case 4: return .orange
-        case 3: return .yellow
+    private var percentageColor: Color {
+        let percentage = quiz.percentageScore
+        switch percentage {
+        case 92...: return .green
+        case 85..<92: return .blue
+        case 72..<85: return .orange
+        case 50..<72: return .yellow
         default: return .red
         }
     }
 
     private func formatDuration(_ duration: TimeInterval) -> String {
-        let minutes = Int(duration) / 60
-        let seconds = Int(duration) % 60
-        return String(format: "%d:%02d", minutes, seconds)
+        let totalSeconds = Int(duration)
+        let days = totalSeconds / 86400
+        let hours = (totalSeconds % 86400) / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+
+        var components: [String] = []
+
+        if days > 0 {
+            components.append("\(days) jour\(days > 1 ? "s" : "")")
+        }
+
+        if hours > 0 {
+            if hours == 1 {
+                components.append("1 heure")
+            } else {
+                components.append("\(hours) heures")
+            }
+        }
+
+        if minutes > 0 {
+            if minutes == 1 {
+                components.append("1 minute")
+            } else {
+                components.append("\(minutes) minutes")
+            }
+        }
+
+        if seconds > 0 && days == 0 {
+            if seconds == 1 {
+                components.append("1 sec")
+            } else {
+                components.append("\(seconds) sec")
+            }
+        }
+
+        if components.isEmpty {
+            return "0 sec"
+        }
+
+        return components.joined(separator: ", ")
+    }
+
+    private func formatAverageTimePerQuestion() -> String {
+        guard quiz.totalQuestions > 0 && quiz.duration > 0 else { return "0 sec" }
+
+        let averageSeconds = quiz.duration / Double(quiz.totalQuestions)
+        let averageMinutes = averageSeconds / 60.0
+
+        if averageSeconds < 60 {
+            return String(format: "%.0f sec", averageSeconds)
+        } else if averageMinutes < 60 {
+            return String(format: "%.1f min", averageMinutes)
+        } else {
+            let averageHours = averageMinutes / 60.0
+            return String(format: "%.1f h", averageHours)
+        }
     }
 }
 

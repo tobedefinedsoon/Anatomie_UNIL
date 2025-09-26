@@ -32,18 +32,6 @@ final class Quiz {
         guard totalQuestions > 0 else { return 0 }
         return (Double(score) / Double(totalQuestions)) * 100
     }
-
-    var grade: Int {
-        let percentage = percentageScore
-        switch percentage {
-        case 92...: return 6
-        case 85..<92: return 5
-        case 72..<85: return 4
-        case 50..<72: return 3
-        case 30..<50: return 2
-        default: return 1
-        }
-    }
 }
 
 @Model

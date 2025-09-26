@@ -92,16 +92,15 @@ struct QuizHistoryRow: View {
                 VStack(alignment: .trailing, spacing: 4) {
                     ZStack {
                         Circle()
-                            .fill(gradeColor.opacity(0.2))
-                            .frame(width: 40, height: 40)
+                            .fill(percentageColor.opacity(0.2))
+                            .frame(width: 50, height: 50)
 
-                        Text("\(quiz.grade)")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(gradeColor)
+                        Text("\(Int(quiz.percentageScore))%")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(percentageColor)
                     }
 
-                    Text("\(Int(quiz.percentageScore))%")
+                    Text("\(quiz.score)/\(quiz.totalQuestions)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -114,12 +113,13 @@ struct QuizHistoryRow: View {
         }
     }
 
-    private var gradeColor: Color {
-        switch quiz.grade {
-        case 6: return .green
-        case 5: return .blue
-        case 4: return .orange
-        case 3: return .yellow
+    private var percentageColor: Color {
+        let percentage = quiz.percentageScore
+        switch percentage {
+        case 92...: return .green
+        case 85..<92: return .blue
+        case 72..<85: return .orange
+        case 50..<72: return .yellow
         default: return .red
         }
     }
