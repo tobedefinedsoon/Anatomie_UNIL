@@ -28,7 +28,7 @@ struct SettingsView: View {
                         Slider(value: Binding(
                             get: { Double(settings.questionCount) },
                             set: { settings.questionCount = Int($0) }
-                        ), in: 5...50, step: 1)
+                        ), in: 5...50, step: 5)
                         .tint(.blue)
 
                         HStack {
@@ -55,7 +55,7 @@ struct SettingsView: View {
                         Slider(value: Binding(
                             get: { Double(settings.timePerQuestion) },
                             set: { settings.timePerQuestion = Int($0) }
-                        ), in: 10...120, step: 5)
+                        ), in: 10...60, step: 5)
                         .tint(.blue)
 
                         HStack {
@@ -63,7 +63,7 @@ struct SettingsView: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("2min")
+                            Text("60s")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }

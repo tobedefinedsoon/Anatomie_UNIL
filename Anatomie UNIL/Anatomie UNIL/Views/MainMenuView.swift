@@ -127,7 +127,7 @@ struct CategoryButton: View {
     @EnvironmentObject private var settings: Settings
 
     var body: some View {
-        NavigationLink(destination: QuizConfigurationView(category: category)) {
+        NavigationLink(destination: QuizView(category: category)) {
             VStack(spacing: 8) {
                 Image(systemName: icon)
                     .font(.title)
