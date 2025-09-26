@@ -12,23 +12,23 @@ struct MuscleDatabase {
     // MARK: - Upper Limb Muscles
 
     static let shoulderAnteriorMuscles = [
-        ("muscle grand pectoral", "Clavicule(1/2 méd), sternum, 4 à 6 cartilages costaux, gaine du muscle droit de l'abdomen", "Crète du tubercule majeur de l'humérus", "N. pectoraux", "Artère thoraco-acromiale"),
-        ("muscle petit pectoral", "Côtes 3-5", "Processus coracoïde", "N. pectoraux", "Artère thoraco-acromiale, artère deltoïdienne"),
+        ("muscle grand pectoral", "Clavicule(1/2 méd), sternum, 4 à 6 cartilages costaux, gaine du muscle droit de l'abdomen", "Crète du tubercule majeur de l'humérus", "Nn. pectoraux latéral & médial", "Artère thoraco-acromiale"),
+        ("muscle petit pectoral", "Côtes 3-5", "Processus coracoïde", "N. pectoraux latéral & médial", "Artère thoraco-acromiale, artère deltoïdienne"),
         ("muscle subclavier", "Cartilage 1ère côte", "Face inférieure de la clavicule", "N. subclavier", "Artère thoraco-acromiale"),
         ("muscle sterno-cléido-mastoïdien", "Sternum et clavicule", "Processus mastoïde et ligne nuchale supérieur", "N. accessoire et plexus cervical", "Artère supra-scapulaire"),
         ("muscle deltoïde", "Clavicule (tier latéral), acromion et épine de la scapula", "Tubérosité deltoïdienne de l'humérus", "N. axillaire", "Artère thoraco-acromiale, artère profonde du bras")
     ]
 
     static let shoulderPosteriorMuscles = [
-        ("muscle supra-épineux", "Fosse supra-épineuse", "Facette supérieurs du tubercule majeur de l'humérus", "N. supra-scapulaire", "Artère supra-scapulaire"),
+        ("muscle supra-épineux", "Fosse supra-épineuse", "Facette supérieures du tubercule majeur de l'humérus", "N. supra-scapulaire", "Artère supra-scapulaire"),
         ("muscle infra-épineux", "Fosse infra-épineuse", "Facette moyenne du tubercule majeur de l'humérus", "N. supra-scapulaire", "Artère supra-scapulaire et circonflexe scapulaire"),
         ("muscle petit rond", "Bord latéral supérieur de la scapula", "Facette inférieure du tubercule majeur de l'humérus", "N. axillaire", "Artère circonflexe de la scapula et artère circonflexe postérieure de l'humérus"),
-        ("muscle grand rond", "Bord inférieur et latéral de la scapula", "Crète du tubercule mineur de l'humérus", "N. subscapulaire", "Artère circonflexe postérieure de l'humérus"),
-        ("muscle subscapulaire", "Fosse subscapulaire", "Tubercule mineur de l'humérus", "N. subscapulaire", "Artère subscapulaire, artère axiliaire, artère suprascapulaire"),
-        ("muscle grand dorsal", "Processus épineux T7 à L5, aponévrose lombaire, crète iliaque partie postérieure, angle inférieur de la scapula, sacrum, côtes 10-12", "Crète du tubercule mineur de l'humérus", "N. thoraco dorsal", "Artère thoraco-dorsale"),
+        ("muscle grand rond", "Bord inférieur et latéral de la scapula", "Crète du tubercule mineur de l'humérus", "N. subscapulaire inférieur", "Artère circonflexe postérieure de l'humérus"),
+        ("muscle subscapulaire", "Fosse subscapulaire", "Tubercule mineur de l'humérus", "Nn. subscapulaires supérieur & inférieur", "Artère subscapulaire, artère axilliaire, artère suprascapulaire"),
+        ("muscle grand dorsal", "Processus épineux T7 à L5, aponévrose lombaire, crète iliaque partie postérieure, angle inférieur de la scapula, sacrum, côtes 10-12", "Crète du tubercule mineur de l'humérus", "N. thoraco dorsal", "Artère thoraco dorsale"),
         ("muscle dentelé antérieur", "9-10 digitations sur les côtes 1-9", "Angle supérieur, bord médial antérieur, angle inférieur de la scapula", "N. thoracique long", "Error"),
-        ("muscle petit rhomboïde", "Processus épineux C6 et C7", "Bord médial de la scapula, au-dessus de l'épine scapulaire", "N. dorsal de la scapula", "Artère scapulaire dorsale"),
-        ("muscle grand rhomboïde", "Processus épineux T1 à T4", "Bord médial de la scapula au-dessous de l'épine scapulaire", "N. dorsal de la scapula", "Error"),
+        ("muscle petit rhomboïde", "Processus épineux C7 et T1", "Bord médial de la scapula, au-dessus de l'épine scapulaire", "N. dorsal de la scapula", "Artère scapulaire dorsale"),
+        ("muscle grand rhomboïde", "Processus épineux T2 à T5", "Bord médial de la scapula au-dessous de l'épine scapulaire", "N. dorsal de la scapula", "Error"),
         ("muscle élévateur de la scapula", "Processus transverse, C1-C4", "Angle supérieur de la scapula", "N. dorsal de la scapula", "Artère cervicale transverse"),
         ("muscle trapèze", "Protubérance occipitale ext. ligne nuchale supérieur, ligament nuchal supérieur, processus épineux C7-T12", "Clavicule (1/3 latéral), acromion et épine de la scapula", "N. accessoire et plexus cervical", "Artère cervicale, artère occipitale")
     ]
@@ -47,24 +47,24 @@ struct MuscleDatabase {
     static let forearmAnteriorMuscles = [
         ("muscle rond pronateur", "Epicondyle médial de l'humérus et processus coronoïde de l'ulna", "Milieu, face latérale du radius", "N. médian", "Artère ulnaire, artère récurrente ulnaire antérieure"),
         ("muscle fléchisseur radial du carpe", "Epicondyle médial de l'humérus", "Base 2e et 3e métacarpiens (palmaire)", "N. médian", "Artère récurrente ulnaire et artère postérieure radiale"),
-        ("muscle long palmaire", "Epicondyle médial de l'humérus", "Aponévrose palmaire", "N. médian", ""),
+        ("muscle long palmaire", "Epicondyle médial de l'humérus", "Aponévrose palmaire", "N. médian", "Artères récurrente ulnaire"),
         ("muscle fléchisseur ulnaire du carpe", "Epicondyle médial, olécrâne, et 2/3 postérieur proximal de l'ulna", "Os pisiforme, os hamatum, 5e métacarpien", "N. ulnaire", "Artère récurrente ulnaire postérieure et inférieure, artère ulnaire"),
-        ("muscle fléchisseur superficiel des doigts", "Epicondyle médial de l'humérus, processus coronoïde de l'ulna, face antérieure du radius", "Phalanges moyennees, doigts 2-5", "N. médian", "Artère ulnaire, artère radiale, artère récurrente ulnaire"),
+        ("muscle fléchisseur superficiel des doigts", "Epicondyle médial de l'humérus, processus coronoïde de l'ulna, face antérieure du radius", "Phalanges moyennes, doigts 2-5", "N. médian", "Artère ulnaire, artère radiale, artère récurrente ulnaire"),
         ("muscle fléchisseur profond des doigts", "3/4 prox. de face antérieure et médial de l'ulna, membrane interosseuse", "Base des phalanges distales des doigts 2-5", "N. médian & ulnaire", "Artère ulnaire, artère interosseuse antérieure"),
         ("muscle long fléchisseur du pouce", "Face antérieure du radius au-dessous de la tubérosité radiale, membrane interosseuse", "Base de la phalange distale du pouce", "N. médian", "Artère interosseuse antérieure"),
-        ("muscle carré pronateur", "1/4 distal de face antérieure de l'ulna", "1/4 distal de face antérieure du radius", "N. médian", "Artère interosseure antérieure")
+        ("muscle carré pronateur", "1/4 distal de face antérieure de l'ulna", "1/4 distal de face antérieure du radius", "N. médian", "Artère interosseuse antérieure")
     ]
 
     static let forearmPosteriorMuscles = [
         ("muscle brachio-radial", "Septum intermusculaire latéral et bord latéral de l'humérus", "Processus styloïde du radius", "N. radial", "Artère radiale récurrente, artère collatérale radiale, artère radiale"),
         ("muscle long extenseur radial du carpe", "septum intermusculaire latéral et bord latéral de l'humérus", "Base 2e métacarpien postérieur", "N. radial", "Artère radiale"),
         ("muscle court extenseur radial du carpe", "Epicondyle latéral de l'humérus", "Base 3e métacarpien postérieur", "N. radial", "Artère radiale"),
-        ("muscle extenseur des doigts", "Epicondyle latéral de l'humérus", "Aponévrose dorsales, phalanges des doigts 2-5", "N. radial", "Artère interosseuse postérieure"),
+        ("muscle extenseur des doigts", "Epicondyle latéral de l'humérus", "Aponévrose dorsales, phalanges des doigts 2-5", "N. interosseux postérieur", "Artère interosseuse postérieure"),
         ("muscle extenseur propre du 5e doigt", "Epicondyle latéral de l'humérus", "Aponévrose dorsale du 5e doigt", "N. radial", "Artère interosseure antérieure"),
         ("muscle extenseur ulnaire du carpe", "Epicondyle latéral de l'humérus, l'ulna, et ligament collatéral radial", "Base du 5e métacarpien, face postérieure", "N. radial", "Artère récurrente radiale, artère interosseuse postérieure"),
         ("muscle supinateur", "Crête ulnaire du muscle supinateur, épicondyle latéral de l'humérus, ligament collatéral radial", "Face latérale et bord antérieur du radius", "N. radial", "Artère interosseuse récurrente"),
-        ("muscle long abducteur, du pouce", "Face postérieure membrane interosseuse, faces adjacentes de l'ulna et du radius", "Base du 1er métacarpien", "N. radial", "Error"),
-        ("muscle court extenseur du pouce", "Face postérieure du radius et de la membane interosseuse", "Base phalange proximale du pouce", "N. radial", "Artère interosseuse postérieure et antérieure"),
+        ("muscle long abducteur du pouce", "Face postérieure membrane interosseuse, faces adjacentes de l'ulna et du radius", "Base du 1er métacarpien", "N. radial", "Artère interosseuse postérieure"),
+        ("muscle court extenseur du pouce", "Face postérieure du radius et de la membrane interosseuse", "Base phalange proximale du pouce", "N. radial", "Artère interosseuse postérieure & antérieure"),
         ("muscle long extenseur du pouce", "Face postérieure de l'ulna et de la membrane interosseuse", "Base phalange distale du pouce", "N. radial", "Artère interosseuse postérieure et antérieure"),
         ("muscle extenseur de l'index", "Tiers inférieur de face postérieur de l'ulna, membrane interosseuse", "Aponévrose dorsale de l'index", "N. radial", "Artère interosseuse postérieure et antérieure")
     ]
@@ -74,15 +74,15 @@ struct MuscleDatabase {
         ("muscle abducteur du 5e doigt", "Os pisiforme, ligament piso-hamatum et rétinaculum des fléchisseurs", "Base phalange prox. du 5e doigt et aponévrose dorsale", "N. ulnaire", "Artère ulnaire"),
         ("muscle court fléchisseur du 5e doigt", "Rétinaculum des fléchisseurs, crochet (hamulus) de l'hamatum", "Base phalange proximal du 5e doigt, avec m. abd. du 5e doigt", "N. ulnaire", "Artère ulnaire"),
         ("muscle opposant du 5e doigt", "Rétinaculum des fléchisseurs et hamulus de l'hamatum", "Tête et corps, bord ulnaire, du 5e métacarpien", "N. ulnaire", "Artère ulnaire"),
-        ("muscle court abducteur du pouce", "Rétinaculum des fléchisseurs et tubercule du scaphoïde", "Sésamoïde latéral et phalange prox. du pouce", "N. ulnaire", "Branche palmaire superficielle de l'artère radiale"),
+        ("muscle court abducteur du pouce", "Rétinaculum des fléchisseurs et tubercule du scaphoïde", "Sésamoïde latéral et phalange prox. du pouce", "Branche récurrente du n. médian", "Branche palmaire superficielle de l'artère radiale"),
         ("muscle court fléchisseur du pouce chef superficiel", "Rétinaculum des fléchisseurs", "Sésamoïde latéral et bord radial", "N. médian", "Branche palmaire superficielle de l'artère radiale"),
         ("muscle court fléchisseur du pouce chef profond", "Trapèze, trapézoïde, capitatum, base 1er métacarpien", "Phalange prox. du pouce", "N. ulnaire", "Branche palmaire superficielle de l'artère radiale"),
         ("muscle adducteur du pouce chef transverse", "Face antérieure 3e métacarpien", "Sésamoïde médial et bord ulnaire", "N. ulnaire", "Arcade palmaire profonde"),
         ("muscle adducteur du pouce chef oblique", "Trapézoïde et capitatum", "Phalange proximale du pouce", "N. ulnaire", "Arcade palmaire profonde"),
-        ("muscle opposant du pouce", "Tubercule du trapèze, rétinaculum des fléchisseurs", "Bord latéral du 1er métacarpien", "N. ulnaire", "Branche palmaire superficielle de l'artère radiale"),
+        ("muscle opposant du pouce", "Tubercule du trapèze, rétinaculum des fléchisseurs", "Bord latéral du 1er métacarpien", "Branche récurrente du n. médian", "Branche palmaire superficielle de l'artère radiale"),
         ("muscle interosseux palmaires", "Bases des métacarpiens 2, 4, 5", "Aponévrose dorsale doigts 2, 4, 5", "N. ulnaire", "Arcade palmaire profonde, artères palmaires métacarpiennes, artère radiale de l'index"),
         ("muscle interosseux dorsaux", "2 chefs sur métacarpiens adjacents 1 à 5", "Aponévroses dorsales doigts 2 à 4", "N. ulnaire", "Arcade palmaire profonde, artères palmaires et dorsales métacarpiennes, artère radiale de l'index"),
-        ("muscles lombricaux", "Tendons du m. fléchisseur profond des doigts", "Face radiale aponévroses dorsales et capsules art. métacarpo-phalangiennes des doigts 2 à 5", "N. ulnaire", "Artères métacarpiennes dorsales, artères digitales dorsales")
+        ("muscles lombricaux", "Tendons du m. fléchisseur profond des doigts", "Face radiale aponévroses dorsales et capsules art. métacarpo-phalangiennes des doigts 2 à 5", "Nn. 1–2 médian, 3–4 ulnaire", "Artères métacarpiennes dorsales, artères digitales dorsales")
     ]
 
     // MARK: - Lower Limb Muscles
@@ -90,7 +90,7 @@ struct MuscleDatabase {
     static let hipMuscles = [
         ("muscle ilio-psoas iliaque", "Fosse iliaque", "Petit trochanter", "Plexus lombaire et n. fémoral (crural)", "Artère ilio-lombaire, branche du tronc postérieur de l'artère iliaque interne"),
         ("muscle ilio-psoas psoas", "Corps et disques intervertébrals L1-L4, processus costiforme L1-L5", "Petit trochanter", "Plexus lombaire et n. fémoral (crural)", "Artère ilio-lombaire, branche du tronc postérieur de l'artère iliaque interne"),
-        ("muscle carré des lombes", "Crête iliaque", "12e côte processus costiforme L1-L4", "N. subcostal et plexus lombaire", "Veines subcostales"),
+        ("muscle carré des lombes", "Crête iliaque", "12e côte processus costiforme L1-L4", "N. subcostal et plexus lombaire", "Artères subcostales"),
         ("muscle tenseur du fascia lata", "Côté latéral de l'épine iliaque antéro-supérieure", "Tractus ilio-tibial, latéral à la tubérosité externe du tibia", "N. glutéal supérieur", "Artère glutéale supérieure, artère circonflexe latérale"),
         ("muscle grand fessier", "Face postérieure et ext. de l'ilium, sacrum, coccyx, lig. sacro-tubéral profond : aile iliaque", "Tractus ilio-tibial, tubérosité glutéale du fémur, septum intermusculaire", "N. glutéal inférieur", "Artères glutéales inférieures et supérieures"),
         ("muscle moyen fessier", "Face ext. de l'ilium, entre lignes glutéales postérieures et antérieures", "Grand trochanter", "N. glutéal supérieur", "Artère glutéale supérieure"),
