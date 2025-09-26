@@ -19,6 +19,7 @@ class QuizViewModel {
     var quizStartTime: Date?
     var autoAdvanceCountdown: Int = 0
     var showNextButton: Bool = false
+    var displayedQuestion: QuizQuestion? // The question currently displayed to the user
     private var countdownTimer: Timer?
 
     private let quizService: QuizService
@@ -30,6 +31,12 @@ class QuizViewModel {
     }
 
     var currentQuestion: QuizQuestion? {
+        // When showing results, display the question that was answered
+        if showingResults, let displayed = displayedQuestion {
+            return displayed
+        }
+
+        // Otherwise, display the current active question
         guard let quiz = currentQuiz,
               currentQuestionIndex < quiz.questions.count else { return nil }
         return quiz.questions[currentQuestionIndex]
@@ -52,15 +59,20 @@ class QuizViewModel {
         isQuizCompleted = false
         selectedAnswer = nil
         showingResults = false
+        displayedQuestion = nil
     }
 
     func selectAnswer(_ answer: String) {
         selectedAnswer = answer
 
-        // Always submit the answer immediately when selected
-        submitAnswer()
-
         if settings.showResultsImmediately {
+            // Capture the current question before any changes
+            guard let quiz = currentQuiz,
+                  currentQuestionIndex < quiz.questions.count else { return }
+            displayedQuestion = quiz.questions[currentQuestionIndex]
+
+            // Submit immediately and show results when this setting is enabled
+            submitAnswer()
             showingResults = true
 
             // Check if answer is correct
@@ -72,6 +84,8 @@ class QuizViewModel {
                 showNextButton = true
             }
         }
+        // When showResultsImmediately is false, just select the answer
+        // The user must click "Valider" to submit
     }
 
     func submitAnswer() {
@@ -80,11 +94,11 @@ class QuizViewModel {
 
         quizService.answerQuestion(question, with: answer)
 
-        // Only advance automatically if results are not shown immediately
-        // When showResultsImmediately is true, progression is handled by countdown/next button
         if !settings.showResultsImmediately {
+            // Advance automatically to next question when results are not shown immediately
             nextQuestion()
         }
+        // When showResultsImmediately is true, the result display logic is handled in selectAnswer()
     }
 
     private func nextQuestion() {
@@ -101,6 +115,13 @@ class QuizViewModel {
     }
 
     func moveToNextQuestion() {
+        // Clear the results display before moving to the next question
+        showingResults = false
+        showNextButton = false
+        displayedQuestion = nil
+        stopCountdown()
+
+        // Then advance to the next question
         nextQuestion()
     }
 
@@ -132,6 +153,7 @@ class QuizViewModel {
         showNextButton = false
         autoAdvanceCountdown = 0
         quizStartTime = nil
+        displayedQuestion = nil
     }
 
     var isAnswerCorrect: Bool? {
@@ -152,7 +174,7 @@ class QuizViewModel {
             if self.autoAdvanceCountdown < 0 {
                 // Add a small delay after showing 0 before advancing
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.nextQuestion()
+                    self.moveToNextQuestion()
                 }
                 self.stopCountdown()
             }

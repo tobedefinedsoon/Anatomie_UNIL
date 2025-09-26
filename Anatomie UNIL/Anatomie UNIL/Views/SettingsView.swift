@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct SettingsView: View {
     @EnvironmentObject private var settings: Settings
     @EnvironmentObject private var statistics: Statistics
     @Environment(\.dismiss) private var dismiss
+    @State private var showingMailComposer = false
 
     var body: some View {
         NavigationStack {
@@ -93,6 +95,31 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("Support") {
+                    Button(action: {
+                        if MFMailComposeViewController.canSendMail() {
+                            showingMailComposer = true
+                        } else {
+                            // Fallback to mailto URL
+                            let email = "sven.borden@outlook.com"
+                            let subject = "Anatomie UNIL - Suggestion/Correction"
+                            let body = "Bonjour,\n\nJe souhaite faire part d'une suggestion ou d'une correction,\n\n"
+
+                            let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                            let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+
+                            if let url = URL(string: "mailto:\(email)?subject=\(encodedSubject)&body=\(encodedBody)") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "envelope")
+                            Text("Contacter le développeur")
+                        }
+                    }
+                }
+
                 Section {
                     Button("Réinitialiser les paramètres", role: .destructive) {
                         settings.reset()
@@ -108,6 +135,50 @@ struct SettingsView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showingMailComposer) {
+                MailComposeView(
+                    toEmail: "sven.borden@outlook.com",
+                    subject: "Anatomie UNIL - Suggestion/Correction",
+                    body: "Bonjour,\n\nJe souhaite faire part d'une suggestion ou d'une correction,\n\n"
+                )
+            }
+        }
+    }
+}
+
+struct MailComposeView: UIViewControllerRepresentable {
+    let toEmail: String
+    let subject: String
+    let body: String
+
+    @Environment(\.dismiss) private var dismiss
+
+    func makeUIViewController(context: Context) -> MFMailComposeViewController {
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = context.coordinator
+        composer.setToRecipients([toEmail])
+        composer.setSubject(subject)
+        composer.setMessageBody(body, isHTML: false)
+        return composer
+    }
+
+    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {
+        // No updates needed
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+        let parent: MailComposeView
+
+        init(_ parent: MailComposeView) {
+            self.parent = parent
+        }
+
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            parent.dismiss()
         }
     }
 }

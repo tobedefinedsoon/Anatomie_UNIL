@@ -271,11 +271,18 @@ struct QuestionDetailView: View {
         }
         .sheet(isPresented: $showingMailComposer) {
             MailComposeView(
-                subject: "Remarque Anatomie UNIL",
-                messageBody: """
+                toEmail: "sven.borden@outlook.com",
+                subject: "Anatomie UNIL - Remarque sur une question",
+                body: """
+                Bonjour,
+
+                Je souhaite signaler une remarque concernant cette question :
+
                 Question : \(question.question)
                 Réponse système : \(question.correctAnswer)
                 Réponse utilisateur : \(question.userAnswer ?? "Non répondu")
+
+                Remarque :
                 """
             )
         }
@@ -340,38 +347,6 @@ struct AnswerDetailRow: View {
     }
 }
 
-// Mail composer wrapper
-struct MailComposeView: UIViewControllerRepresentable {
-    let subject: String
-    let messageBody: String
-
-    func makeUIViewController(context: Context) -> MFMailComposeViewController {
-        let controller = MFMailComposeViewController()
-        controller.setSubject(subject)
-        controller.setMessageBody(messageBody, isHTML: false)
-        controller.setToRecipients(["glaglasven@live.com"]) // Original developer email
-        controller.mailComposeDelegate = context.coordinator
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
-        let parent: MailComposeView
-
-        init(_ parent: MailComposeView) {
-            self.parent = parent
-        }
-
-        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-            controller.dismiss(animated: true)
-        }
-    }
-}
 
 #Preview {
     QuizResultsView(quiz: Quiz())
