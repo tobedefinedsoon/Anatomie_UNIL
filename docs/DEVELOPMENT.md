@@ -1,4 +1,4 @@
-# Claude.md - Development Guide for Anatomie UNIL
+# Development Guide - Anatomie UNIL
 
 ## Project Overview
 Anatomie UNIL is an iOS educational quiz app for medical students studying human anatomy at UNIL (University of Lausanne). The app has been migrated from Xamarin.iOS (C#) to SwiftUI.

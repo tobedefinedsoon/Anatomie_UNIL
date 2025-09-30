@@ -1,61 +1,75 @@
-# App Overview
+# Anatomie UNIL
 
-  Anatomie UNIL is an educational quiz application for medical students
-  studying human anatomy at UNIL (University of Lausanne). It tests
-  knowledge of muscle anatomy including origins, insertions, innervation,
-  and vascularization.
+An educational iOS quiz application for medical students studying human anatomy at UNIL (University of Lausanne).
 
-# Core Features
+## Quick Start
 
-  1. Quiz Categories
+### Prerequisites
+- Xcode 14.0 or later
+- iOS 14.0+ deployment target
+- macOS for development
 
-  - Membre supérieur (Upper limb) - shoulder, arm, forearm, hand muscles
-  - Membre inférieur (Lower limb) - hip, thigh, leg, foot muscles
-  - Tronc (Trunk) - neck, back, thorax, abdomen muscles
-  - Tout (All) - Combined quiz from all categories
+### Running the App
+1. Open `Anatomie UNIL.xcodeproj` in Xcode
+2. Select your target device/simulator
+3. Press ⌘+R to build and run
 
-  2. Question Types
+### Testing
+```bash
+# Run unit tests
+xcodebuild -project "Anatomie UNIL.xcodeproj" -scheme "Anatomie UNIL" test
 
-  - Origin - Where the muscle originates
-  - Insertion/Termination - Where the muscle inserts
-  - Innervation - Nerve supply of the muscle
-  - Vascularization - Blood supply (arteries)
+# Or use Xcode: ⌘+U
+```
 
-  3. Quiz Functionality
+## Features
 
-  - Configurable number of questions (slider from 1-50+)
-  - Toggle question types on/off
-  - Multiple choice format (4 answer options)
-  - Immediate feedback (green for correct, red for incorrect)
-  - Progress bar showing quiz completion
-  - Automatic advancement after correct answer (1 second delay)
-  - Prevents duplicate questions in same session
+The app tests knowledge of muscle anatomy across four categories:
+- **Membre supérieur** - Upper limb anatomy
+- **Membre inférieur** - Lower limb anatomy
+- **Tronc** - Trunk anatomy
+- **Tout** - All categories combined
 
-  4. Results & Review
+Quiz features include configurable question count, multiple choice format, immediate feedback, and detailed review functionality with grade calculation (1-6 scale).
 
-  - Final score/grade (1-6 scale based on percentage)
-  - Review all questions with correct/incorrect status
-  - Detailed view showing user's answer vs correct answer
-  - Ability to report errors via email to developer
+## Project Structure
 
-  5. Data Model
+```
+Anatomie UNIL/
+├── Anatomie UNIL/           # Main app source
+│   ├── Models/              # Data models
+│   ├── Views/               # SwiftUI views
+│   ├── ViewModels/          # MVVM view models
+│   ├── Services/            # Business logic
+│   ├── Data/                # Muscle database (200+ muscles)
+│   └── Assets.xcassets/     # App resources
+├── Anatomie UNILTests/      # Unit tests
+└── Anatomie UNILUITests/    # UI tests
+```
 
-  - Muscle database: 200+ muscles with properties:
-    - Name
-    - Origin
-    - Insertion
-    - Innervation
-    - Vascularization
-  - Question generation: Random selection from appropriate muscle group
-  - Session tracking: Questions asked, user answers, correct answers
+## Documentation
 
-# Technical Architecture
+- [Development Guide](docs/DEVELOPMENT.md) - Setup, architecture, and coding guidelines
+- [Features](docs/FEATURES.md) - Detailed feature documentation
+- [Contributing](CONTRIBUTING.md) - How to contribute to the project
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 
-  - Platform: iOS (iPhone & iPad universal app)
-  - Original Tech: Xamarin.iOS (C#)
-  - UI: Storyboard-based with programmatic elements
-  - Data: Hard-coded muscle database in Data.cs
-  - Settings: Basic user preferences (question count, types)
+## Technology Stack
 
-Link to icon: 
-https://icon.kitchen/i/H4sIAAAAAAAAAzVQTUtDMRD8K7Jee2hrq%2B27SVERRETqSTzkY5MG87IlyVMf5f13d1N6CbvDzM5MTvCj4oAFuhNYlb%2F3B%2BwRupoHnIHz%2B%2FHIG1T8q9B2GTq4T6pSH5AxfeH4rGzAJDztny4LnzUUKS%2BYcb1ym6VZMaFBS4G2er3Vtwyp5COfWdysJzHaxXBUuekLiiUNNYaElqnBUGJEGYOlBB1iqCOwSivrJcnH6%2FOLpJB1J05iNJ%2FfbbSonX9wDk3lylAMZSnh%2FJuyNiQvfpWO0K1nkIM%2FsDNPmirXbWNEJ1jL%2BEjngk71IY587p2YSVc7ShZTaVk1RXv%2Bzok1Pdkhymd%2Fcl%2BbKbQ6VPj9RQ1f0z%2B1gIe7jwEAAA%3D%3D
+- **Platform**: iOS (iPhone & iPad universal)
+- **Language**: Swift
+- **UI Framework**: SwiftUI
+- **Architecture**: MVVM pattern
+- **Data**: Local muscle database
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Adding new muscles to the database
+- Reporting bugs
+- Submitting feature requests
+- Code style and testing requirements
+
+## License
+
+[License information to be added]
