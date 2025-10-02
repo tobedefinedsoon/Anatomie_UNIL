@@ -105,8 +105,6 @@ struct QuizProgressHeader: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
-        .background(Color.white.opacity(0.15))
-        .cornerRadius(12)
     }
 }
 
@@ -134,27 +132,10 @@ struct QuizQuestionView: View {
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                    .padding(.horizontal, 20)
                     .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity)
                     .background(Color.white.opacity(0.1))
                     .cornerRadius(12)
-                    .overlay(
-                        // Animated border that fills as time progresses
-                        RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(
-                                AngularGradient(
-                                    gradient: Gradient(colors: [
-                                        questionTimeRemaining <= 5 ? .purple : .blue,
-                                        .clear
-                                    ]),
-                                    center: .center,
-                                    startAngle: .degrees(-90),
-                                    endAngle: .degrees(-90 + (360 * questionProgress))
-                                ),
-                                lineWidth: showingResult ? 0 : 4
-                            )
-                            .animation(.linear(duration: 1), value: questionProgress)
-                    )
                     .overlay(
                         // Timer digit in bottom right corner
                         Group {
@@ -175,6 +156,7 @@ struct QuizQuestionView: View {
                         }
                     )
             }
+            .padding(.horizontal, 20)
             .padding(.top, 40)
 
             // Answer options
