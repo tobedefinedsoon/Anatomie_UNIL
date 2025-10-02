@@ -10,6 +10,7 @@ import SwiftData
 
 struct MainMenuView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: Settings
     @State private var showingSettings = false
     @State private var showingHistory = false
@@ -87,7 +88,7 @@ struct MainMenuView: View {
                             }
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.black.opacity(0.2))
+                            .background(colorScheme == .dark ? Color.white.opacity(0.15) : Color.black.opacity(0.2))
                             .cornerRadius(10)
                         }
 
@@ -100,7 +101,7 @@ struct MainMenuView: View {
                             }
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.black.opacity(0.2))
+                            .background(colorScheme == .dark ? Color.white.opacity(0.15) : Color.black.opacity(0.2))
                             .cornerRadius(10)
                         }
                     }
@@ -124,6 +125,7 @@ struct CategoryButton: View {
     let category: MuscleCategory?
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: Settings
 
     var body: some View {
@@ -142,10 +144,10 @@ struct CategoryButton: View {
                     .font(.caption2)
                     .opacity(0.6)
             }
-            .foregroundColor(.primary)
+            .foregroundColor(colorScheme == .dark ? .white : .primary)
             .padding()
             .frame(maxWidth: .infinity, minHeight: 100)
-            .background(Color.white.opacity(0.9))
+            .background(colorScheme == .dark ? Color.white.opacity(0.15) : Color.white.opacity(0.9))
             .cornerRadius(15)
             .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
         }

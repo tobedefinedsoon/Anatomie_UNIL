@@ -132,8 +132,10 @@ struct QuizQuestionView: View {
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                    .padding(.vertical, 16)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 20)
                     .frame(maxWidth: .infinity)
+                    .fixedSize(horizontal: false, vertical: true)
                     .background(Color.white.opacity(0.1))
                     .cornerRadius(12)
                     .overlay(
@@ -287,6 +289,8 @@ struct AnswerButton: View {
     let isUserAnswer: Bool
     let action: () -> Void
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         Button(action: action) {
             Text(text)
@@ -316,7 +320,11 @@ struct AnswerButton: View {
             }
         }
 
-        return isSelected ? .blue.opacity(0.3) : Color.white.opacity(0.9)
+        if isSelected {
+            return .blue.opacity(0.3)
+        }
+
+        return colorScheme == .dark ? Color.white.opacity(0.15) : Color.white.opacity(0.9)
     }
 
     private var foregroundColor: Color {
@@ -328,7 +336,11 @@ struct AnswerButton: View {
             }
         }
 
-        return isSelected ? .blue : .primary
+        if isSelected {
+            return .blue
+        }
+
+        return colorScheme == .dark ? .white : .primary
     }
 
     private var borderColor: Color {
