@@ -218,7 +218,7 @@ struct QuestionReviewCard: View {
                 // Question number and status
                 ZStack {
                     Circle()
-                        .fill(question.isCorrect ? Color.green : Color.red)
+                        .fill(statusColor)
                         .frame(width: 30, height: 30)
 
                     Text("\(questionNumber)")
@@ -252,6 +252,13 @@ struct QuestionReviewCard: View {
             .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         }
         .buttonStyle(.plain)
+    }
+
+    private var statusColor: Color {
+        if question.userAnswer == nil {
+            return Color.gray // Not answered
+        }
+        return question.isCorrect ? Color.green : Color.red
     }
 }
 
